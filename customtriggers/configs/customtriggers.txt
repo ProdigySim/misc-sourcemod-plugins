@@ -1,0 +1,40 @@
+"CustomTriggers"
+{
+	"settings"
+	{
+		"confoglon"
+		{
+			"confogl_enable"	"1"
+			"z_boner_size"		"9001"		
+			"director_stop"		""
+		}
+	}
+	"triggers"
+	{
+		"!confoglmatch"	
+		{
+			"exec" 	"confoglon"
+			"flags"	"abcdefgz"
+		}
+	}
+	"commands"
+	{
+		"sm_forcematch"	
+		{
+			"exec" "confoglon"
+			"flags"	"abcdefgz"
+		}
+	}
+	// ConVar Types:
+	// int		1
+	// float	2
+	// string	3
+	"convars"
+	{
+		"mp_gamemode"
+		{
+			";type;"	"3"
+			"versus"	"confoglon"
+		}
+	}
+}	
