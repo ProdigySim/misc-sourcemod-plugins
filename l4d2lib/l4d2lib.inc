@@ -62,3 +62,31 @@ forward L4D2_OnRealRoundStart(roundNumber);
  * @noreturn
  */
 forward L4D2_OnRealRoundEnd(roundNumber);
+
+
+
+/**
+ * @Called when a tank is first spawned into the game
+ * 
+ * @param tankClient		The client index of the tank
+ * @noreturn
+ */
+forward L4D2_OnTankFirstSpawn(tankClient);
+
+/**
+ * @Called when a tank passes from one client to another
+ * 
+ * @param oldTank			The client index of the previous tank
+ * @param newTank			The client index of the new tank
+ * @param passCount			The number of times this tank has been passed
+ * @noreturn
+ */
+forward L4D2_OnTankPassControl(oldTank, newTank, passCount);
+
+/**
+ * @Called 0.5s after a tank death
+ * 
+ * @param tankClient		The client index of the tank that died
+ * @noreturn
+ */
+forward L4D2_OnTankDeath(tankClient);
