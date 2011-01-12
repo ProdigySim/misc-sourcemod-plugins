@@ -46,6 +46,23 @@ native L4D2_GetCurrentRound();
  */
 native bool:L4D2_CurrentlyInRound();
 
+/**
+ * @brief Returns the number of alive survivors
+ * @remarks Includes all living human and bot survivors
+ * 
+ * @return The number of alive survivors
+ */
+native L4D2_GetSurvivorCount()
+
+/**
+ * @brief Returns the survivor of a specific index
+ * @remarks returns 0 if a survivor doesn't exist at the specified index
+ * @params	index	the index to retrieve the client number from
+ * 
+ * @return Client number of a survivor stored at the given index.
+ */
+native L4D2_GetSurvivorOfIndex(index)
+
 
 /**
  * Called on a real L4D2 round_start
