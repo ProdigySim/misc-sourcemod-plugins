@@ -29,6 +29,14 @@
  *
  */
  
+ /**
+ * Describes a saferoom location. Can be OR'd together
+ */
+ enum Saferoom {
+	Saferoom_Neither = 0,
+	Saferoom_Start = 1,
+	Saferoom_End = 2,
+}; 
  
 /**
  * @brief Returns the current round number
@@ -62,3 +70,118 @@ forward L4D2_OnRealRoundStart(roundNumber);
  * @noreturn
  */
 forward L4D2_OnRealRoundEnd(roundNumber);
+
+/**
+ * @brief Tells if map data is available
+ * @remarks Map data should be available when any map is loaded, after OnMapStart()
+ * 
+ * @return 	True if map data is available, false if it is not.
+ */
+native bool:L4D2_IsMapDataAvailable();
+
+/**
+ * Determines if an entity is in a start or end saferoom (based on mapinfo.txt or automatically generated info)
+ *
+ * @param ent			The entity to be checked
+ * @param saferoom		Saferoom_Start for starting saferoom, Saferoom_End for end saferoom. Defaults to checking both saferooms.
+ * @return				True if it is one of the specified saferoom(s)
+ *						False if it is not in the specified saferoom(s)
+ *						False if no saferoom specified
+ */
+native bool:L4D2_IsEntityInSaferoom(ent, Saferoom:saferoom = Saferoom_Start | Saferoom_End);
+
+/**
+ * @brief Gives the Origins of the starting saferoom area
+ * @remarks Should be centered on the medkit spawns in the saferoom
+ * 
+ * @param origin	Vector to store the origins in.
+ * @noreturn
+ */
+native L4D2_GetMapStartOrigin(Float:origin[3]);
+
+/**
+ * @brief Gives the Origins of the ending saferoom area
+ * @remarks Should be centered on the medkit spawns in the saferoom
+ * 
+ * @param origin	Vector to store the origins in.
+ * @noreturn
+ */
+native L4D2_GetMapEndOrigin(Float:origin[3]);
+
+/**
+ * @brief Gives the distance from the map start origin to the edge of the medkit spawns
+ * @remarks Should be a small radius just containing medkits
+ * 
+ * @return	Float distance from map start origin to medkits
+ */
+native Float:L4D2_GetMapStartDistance();
+
+/**
+ * @brief Gives the distance from the map start origin to the edge of the saferoom
+ * @remarks Should be a larger radius, containing the spawns of all saferoom items
+ * 
+ * @return	Float distance from map start origin to edge of saferoom
+ */
+native Float:L4D2_GetMapStartExtraDistance();
+
+/**
+ * @brief Gives the distance from the map end origin to the edge of the medkit spawns
+ * @remarks Should be a small radius just containing medkits
+ * 
+ * @return	Float distance from map end origin to medkits
+ */
+native Float:L4D2_GetMapEndDistance();
+
+/**
+ * @brief Get an Int value from the MapInfo keyvalues for the current map with a specific key
+ * @remarks Mapinfo keyvalues is used to store static data about maps
+ * 
+ * @param key		Key to read the value from
+ * @param defvalue	Default value to return if key is not found (default 0)
+ * @return			Integer value for given key, or defvalue if key is not found
+ */
+native L4D2_GetMapValueInt(const String:key[], const defvalue=0);
+
+/**
+ * @brief Get a Float value from the MapInfo keyvalues for the current map with a specific key
+ * @remarks Mapinfo keyvalues is used to store static data about maps
+ * 
+ * @param key		Key to read the value from
+ * @param defvalue	Default value to return if key is not found (default 0.0)
+ * @return			Float value for given key, or defvalue if key is not found
+ */
+native Float:L4D2_GetMapValueFloat(const String:key[], const Float:defvalue=0.0);
+
+/**
+ * @brief Get a Vector from the MapInfo keyvalues for the current map with a specific key
+ * @remarks Mapinfo keyvalues is used to store static data about maps
+ * 
+ * @param key		Key to read the value from
+ * @param vector	Vector to store the result in
+ * @param defvalue	Default value to use if key is not found (default NULL_VECTOR)
+ * @noreturn
+ */
+native L4D2_GetMapValueVector(const String:key[], Float:vector[3], const Float:defvalue[3]=NULL_VECTOR);
+
+/**
+ * @brief Get a String from the MapInfo keyvalues for the current map with a specific key
+ * @remarks Mapinfo keyvalues is used to store static data about maps
+ * 
+ * @param key		Key to read the value from
+ * @param value		String to store the result in
+ * @param maxlength Maximum length to write to the value String buffer
+ * @param defvalue	Default value to use if key is not found (default "")
+ * @noreturn
+ */
+native L4D2_GetMapValueString(const String:key[], String:value[], maxlength, const String:defvalue[]="");
+
+/**
+ * @brief Copy a Subsection from the MapInfo keyvalues for the current map
+ * @remarks Mapinfo keyvalues is used to store static data about maps
+ * 
+ * @param kv		KeyValues Handle to copy to
+ * @param section	Name of the section to copy
+ * @noreturn
+ */
+native L4D2_CopyMapSubsection(Handle:kv, const String:section[]);
+	
