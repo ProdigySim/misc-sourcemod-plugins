@@ -72,6 +72,49 @@ forward L4D2_OnRealRoundStart(roundNumber);
 forward L4D2_OnRealRoundEnd(roundNumber);
 
 /**
+ * @brief Returns the number of alive survivors
+ * @remarks Includes all living human and bot survivors
+ * 
+ * @return The number of alive survivors
+ */
+native L4D2_GetSurvivorCount()
+
+/**
+ * @brief Returns the survivor of a specific index
+ * @remarks returns 0 if a survivor doesn't exist at the specified index
+ * @params	index	the index to retrieve the client number from
+ * 
+ * @return Client number of a survivor stored at the given index.
+ */
+native L4D2_GetSurvivorOfIndex(index)
+
+/**
+ * @Called when a tank is first spawned into the game
+ * 
+ * @param tankClient		The client index of the tank
+ * @noreturn
+ */
+forward L4D2_OnTankFirstSpawn(tankClient);
+
+/**
+ * @Called when a tank passes from one client to another
+ * 
+ * @param oldTank			The client index of the previous tank
+ * @param newTank			The client index of the new tank
+ * @param passCount			The number of times this tank has been passed
+ * @noreturn
+ */
+forward L4D2_OnTankPassControl(oldTank, newTank, passCount);
+
+/**
+ * @Called 0.5s after a tank death
+ * 
+ * @param tankClient		The client index of the tank that died
+ * @noreturn
+ */
+forward L4D2_OnTankDeath(tankClient);
+
+/**
  * @brief Tells if map data is available
  * @remarks Map data should be available when any map is loaded, after OnMapStart()
  * 
