@@ -19,6 +19,29 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
+	HookEvent("round_start", RoundStart_Event, EventHookMode_PostNoCopy);
+	HookEvent("round_end", RoundEnd_Event, EventHookMode_PostNoCopy);
+	HookEvent("tank_spawn", TankSpawn_Event);
+	HookEvent("item_pickup", ItemPickup_Event);
+	HookEvent("player_death", PlayerDeath_Event);
+	HookEvent("round_start", RoundStart_Event, EventHookMode_PostNoCopy);
+	HookEvent("player_spawn" , PlayerSpawn_Event, EventHookMode_PostNoCopy);
+	HookEvent("player_disconnect" , PlayerDisconnect_Event, EventHookMode_PostNoCopy);
+	HookEvent("player_bot_replace" , PlayerBotReplace_Event, EventHookMode_PostNoCopy);
+	HookEvent("bot_player_replace" , BotPlayerReplace_Event, EventHookMode_PostNoCopy);
+	HookEvent("defibrillator_used" , DefibrillatorUsed_Event, EventHookMode_PostNoCopy);
+	HookEvent("player_team" , PlayerTeam_Event, EventHookMode_PostNoCopy);
+	MapInfo_Init();
+}
+
+public OnPluginEnd()
+{
+	MapInfo_OnPluginEnd();
+
+}
+
+public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
+{
 	/* Plugin Native Declarations */
 	CreateNative("L4D2_GetCurrentRound", _native_GetCurrentRound);
 	CreateNative("L4D2_CurrentlyInRound", _native_CurrentlyInRound);
@@ -44,30 +67,10 @@ public OnPluginStart()
 	hFwdTankPassControl = CreateGlobalForward("L4D2_OnTankPassControl", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
 	hFwdTankDeath = CreateGlobalForward("L4D2_OnTankDeath", ET_Ignore, Param_Cell);
 	
-	HookEvent("round_start", RoundStart_Event, EventHookMode_PostNoCopy);
-	HookEvent("round_end", RoundEnd_Event, EventHookMode_PostNoCopy);
-	HookEvent("tank_spawn", TankSpawn_Event);
-	HookEvent("item_pickup", ItemPickup_Event);
-	HookEvent("player_death", PlayerDeath_Event);
-	HookEvent("round_start", RoundStart_Event, EventHookMode_PostNoCopy);
-	HookEvent("player_spawn" , PlayerSpawn_Event, EventHookMode_PostNoCopy);
-	HookEvent("player_disconnect" , PlayerDisconnect_Event, EventHookMode_PostNoCopy);
-	HookEvent("player_bot_replace" , PlayerBotReplace_Event, EventHookMode_PostNoCopy);
-	HookEvent("bot_player_replace" , BotPlayerReplace_Event, EventHookMode_PostNoCopy);
-	HookEvent("defibrillator_used" , DefibrillatorUsed_Event, EventHookMode_PostNoCopy);
-	HookEvent("player_team" , PlayerTeam_Event, EventHookMode_PostNoCopy);
-	MapInfo_Init();
-}
-
-public OnPluginEnd()
-{
-	MapInfo_OnPluginEnd();
-
-}
-
-public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
-{
+	/* Register our library */
 	RegPluginLibrary(LIBRARYNAME);
+	
+	return APLRes_Success;
 }
 
 public OnMapStart()

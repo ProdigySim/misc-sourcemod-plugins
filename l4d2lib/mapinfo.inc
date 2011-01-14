@@ -2,7 +2,10 @@
 #include <sdktools>
 #include <left4downtown>
 
-#define DEBUG_MI					0
+#if defined __mapinfo__
+#endinput
+#endif
+#define __mapinfo__
 
 static const String:MAPINFO_PATH[] = "configs/l4d2lib/mapinfo.txt";
 

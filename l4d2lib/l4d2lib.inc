@@ -227,4 +227,36 @@ native L4D2_GetMapValueString(const String:key[], String:value[], maxlength, con
  * @noreturn
  */
 native L4D2_CopyMapSubsection(Handle:kv, const String:section[]);
+
+public SharedPlugin:__pl_l4d2lib = 
+{
+	name = "l4d2lib",
+	file = "l4d2lib.smx",
+#if defined REQUIRE_PLUGIN
+	required = 1,
+#else
+	required = 0,
+#endif
+};
+ 
+public __pl_l4d2lib_SetNTVOptional()
+{
+	MarkNativeAsOptional("L4D2_GetCurrentRound");
+	MarkNativeAsOptional("L4D2_CurrentlyInRound");
+	MarkNativeAsOptional("L4D2_GetSurvivorCount");
+	MarkNativeAsOptional("L4D2_GetSurvivorOfIndex");
+	MarkNativeAsOptional("L4D2_IsMapDataAvailable");
+	MarkNativeAsOptional("L4D2_IsEntityInSaferoom");
+	MarkNativeAsOptional("L4D2_GetMapStartOrigin");
+	MarkNativeAsOptional("L4D2_GetMapEndOrigin");
+	MarkNativeAsOptional("L4D2_GetMapStartDistance");
+	MarkNativeAsOptional("L4D2_GetMapStartExtraDistance");
+	MarkNativeAsOptional("L4D2_GetMapEndDistance");
+	MarkNativeAsOptional("L4D2_GetMapValueInt");
+	MarkNativeAsOptional("L4D2_GetMapValueFloat");
+	MarkNativeAsOptional("L4D2_GetMapValueVector");
+	MarkNativeAsOptional("L4D2_GetMapValueString");
+	MarkNativeAsOptional("L4D2_CopyMapSubsection");	
+}
+
 	

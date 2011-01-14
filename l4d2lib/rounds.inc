@@ -3,7 +3,7 @@
 #if defined __rounds__
 #endinput
 #endif
-#define rounds
+#define __rounds__
 
 /* Global Vars */
 new Handle:hFwdRoundStart;
