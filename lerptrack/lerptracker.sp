@@ -45,30 +45,30 @@ stock Float:GetLerpTime(client)
 	new updateRate = StringToInt( QUICKGETCVARVALUE("cl_updaterate") );
 	updateRate = RoundFloat(clamp(float(updateRate), GetConVarFloat(hMinUpdateRate), GetConVarFloat(hMaxUpdateRate)));
 	
-	new bool:useInterpolation = StringToInt( QUICKGETCVARVALUE("cl_interpolate") ) != 0;
+	/*new bool:useInterpolation = StringToInt( QUICKGETCVARVALUE("cl_interpolate") ) != 0;
 	if ( useInterpolation )
-	{
-		new Float:flLerpRatio = StringToFloat( QUICKGETCVARVALUE("cl_interp_ratio") );
-		if ( flLerpRatio == 0 )
-			flLerpRatio = 1.0;
-		new Float:flLerpAmount = StringToFloat( QUICKGETCVARVALUE("cl_interp") );
+	{*/
+	new Float:flLerpRatio = StringToFloat( QUICKGETCVARVALUE("cl_interp_ratio") );
+	/*if ( flLerpRatio == 0 )
+		flLerpRatio = 1.0;*/
+	new Float:flLerpAmount = StringToFloat( QUICKGETCVARVALUE("cl_interp") );
 
-		
-		if ( hMinInterpRatio != INVALID_HANDLE && hMaxInterpRatio != INVALID_HANDLE && GetConVarFloat(hMinInterpRatio) != -1.0 )
-		{
-			flLerpRatio = clamp( flLerpRatio, GetConVarFloat(hMinInterpRatio), GetConVarFloat(hMaxInterpRatio) );
-		}
-		else
-		{
-			if ( flLerpRatio == 0 )
-				flLerpRatio = 1.0;
-		}
-		lerpTime = MAX( flLerpAmount, flLerpRatio / updateRate );
+	
+	if ( hMinInterpRatio != INVALID_HANDLE && hMaxInterpRatio != INVALID_HANDLE && GetConVarFloat(hMinInterpRatio) != -1.0 )
+	{
+		flLerpRatio = clamp( flLerpRatio, GetConVarFloat(hMinInterpRatio), GetConVarFloat(hMaxInterpRatio) );
 	}
 	else
 	{
-		lerpTime = 0.0;
+		/*if ( flLerpRatio == 0 )
+			flLerpRatio = 1.0;*/
 	}
+	lerpTime = MAX( flLerpAmount, flLerpRatio / updateRate );
+	/*}
+	else
+	{
+		lerpTime = 0.0;
+	}*/
 	
 #undef QUICKGETCVARVALUE
 	return lerpTime;
