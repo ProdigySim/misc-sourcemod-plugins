@@ -126,12 +126,12 @@ native bool:L4D2_IsMapDataAvailable();
  * Determines if an entity is in a start or end saferoom (based on mapinfo.txt or automatically generated info)
  *
  * @param ent			The entity to be checked
- * @param saferoom		Saferoom_Start for starting saferoom, Saferoom_End for end saferoom. Defaults to checking both saferooms.
- * @return				True if it is one of the specified saferoom(s)
- *						False if it is not in the specified saferoom(s)
- *						False if no saferoom specified
+ * @return				Saferoom_Neither if entity is not in any saferoom
+ *						Saferoom_Start if it is in the starting saferoom
+ *						Saferoom_End if it is in the ending saferoom
+ *						Saferoom_Start | Saferoom_End if it is in both saferooms (probably won't happen)
  */
-native bool:L4D2_IsEntityInSaferoom(ent, Saferoom:saferoom = Saferoom_Start | Saferoom_End);
+native Saferoom:L4D2_IsEntityInSaferoom(ent);
 
 /**
  * @brief Gives the Origins of the starting saferoom area

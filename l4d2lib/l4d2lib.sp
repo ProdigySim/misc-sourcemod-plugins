@@ -174,7 +174,7 @@ public _native_IsMapDataAvailable(Handle:plugin, numParams)
 
 public _native_IsEntityInSaferoom(Handle:plugin, numParams)
 {
-	return _:IsEntityInSaferoom(GetNativeCell(1), GetNativeCell(2));
+	return _:IsEntityInSaferoom(GetNativeCell(1));
 }
 
 public _native_GetMapStartOrigin(Handle:plugin, numParams)

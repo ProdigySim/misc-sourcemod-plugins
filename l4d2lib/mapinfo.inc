@@ -269,21 +269,26 @@ stock bool:IsMapDataAvailable() return MapDataAvailable;
  * Determines if an entity is in a start or end saferoom (based on mapinfo.txt or automatically generated info)
  *
  * @param ent			The entity to be checked
- * @param saferoom		START_SAFEROOM (1) = Start saferoom, END_SAFEROOM (2) = End saferoom (including finale area), 3 = both
- * @return				True if it is one of the specified saferoom(s)
- *						False if it is not in the specified saferoom(s)
- *						False if no saferoom specified
+ * @return				Saferoom_Neither if entity is not in any saferoom
+ *						Saferoom_Start if it is in the starting saferoom
+ *						Saferoom_End if it is in the ending saferoom
+ *						Saferoom_Start | Saferoom_End if it is in both saferooms (probably won't happen)
  */
-stock bool:IsEntityInSaferoom(ent, Saferoom:saferoom = Saferoom_Start | Saferoom_End)
+stock Saferoom:IsEntityInSaferoom(ent)
 {
+	new Saferoom:result=Saferoom_Neither;
 	decl Float:origins[3];
 	GetEntPropVector(ent, Prop_Send, "m_vecOrigin", origins);
 	
-	if ((saferoom & Saferoom_Start) && (GetVectorDistance(origins, Start_Point) <= (Start_Extra_Dist > Start_Dist ? Start_Extra_Dist : Start_Dist))) return true;
-	else if ((saferoom & Saferoom_End) && (GetVectorDistance(origins, End_Point) <= End_Dist)) return true;
-	else return false;
-//	return ((GetVectorDistance(origins, Start_Point) <= (Start_Extra_Dist > Start_Dist ? Start_Extra_Dist : Start_Dist)) 
-//		|| (GetVectorDistance(origins, End_Point) <= End_Dist));
+	if ((GetVectorDistance(origins, Start_Point) <= (Start_Extra_Dist > Start_Dist ? Start_Extra_Dist : Start_Dist)))
+	{
+		result |= Saferoom_Start;
+	}
+	if (GetVectorDistance(origins, End_Point) <= End_Dist)
+	{
+		result |= Saferoom_End;
+	}
+	return result;
 }
 
 stock GetMapValueInt(const String:key[], const defvalue=0) 
