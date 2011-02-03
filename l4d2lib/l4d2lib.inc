@@ -36,6 +36,7 @@
 	Saferoom_Neither = 0,
 	Saferoom_Start = 1,
 	Saferoom_End = 2,
+	Saferoom_Both = 3
 }; 
  
 /**
