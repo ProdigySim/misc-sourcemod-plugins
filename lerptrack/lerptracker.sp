@@ -9,7 +9,7 @@ public Plugin:myinfo =
 	name = "LerpTracker",
 	author = "ProdigySim",
 	description = "Keep track of players' lerp settings",
-	version = "0.2",
+	version = "0.3",
 	url = "https://bitbucket.org/ProdigySim/misc-sourcemod-plugins"
 };
 
@@ -29,18 +29,18 @@ new Handle:hMaxInterpRatio;
 
 // psychonic made me do it
 
-bool:ShouldFixLerp() { return GetConVarBool(hFixLerpValue); }
+#define ShouldFixLerp() (GetConVarBool(hFixLerpValue))
 
-bool:ShouldAnnounceLerp() { return GetConVarBool(hAnnounceLerp); }
+#define ShouldAnnounceLerp() (GetConVarBool(hAnnounceLerp))
 
-bool:ShouldLogLerp() { return GetConVarBool(hLogLerp); }
+#define ShouldLogLerp() (GetConVarBool(hLogLerp))
 
-bool:IsCurrentLerpValid(client) { return (g_fCurrentLerps[client] >= 0.0); }
+#define IsCurrentLerpValid(%0) (g_fCurrentLerps[(%0)] >= 0.0)
 
-InvalidateCurrentLerp(client) { g_fCurrentLerps[client] = -1.0; }
+#define InvalidateCurrentLerp(%0) (g_fCurrentLerps[(%0)] = -1.0)
 
-Float:GetCurrentLerp(client) { return g_fCurrentLerps[client]; }
-SetCurrentLerp(client, Float:lerp) {  g_fCurrentLerps[client] = lerp; }
+#define GetCurrentLerp(%0) (g_fCurrentLerps[(%0)])
+#define SetCurrentLerp(%0,%1) (g_fCurrentLerps[(%0)] = (%1))
 
 public OnPluginStart()
 {
@@ -48,22 +48,41 @@ public OnPluginStart()
 	hMaxUpdateRate = FindConVar("sv_maxupdaterate");
 	hMinInterpRatio = FindConVar("sv_client_min_interp_ratio");
 	hMaxInterpRatio= FindConVar("sv_client_max_interp_ratio");
-	hLogLerp = CreateConVar("sm_log_lerp", "1", "Log changes to client lerp");
-	hAnnounceLerp = CreateConVar("sm_announce_lerp", "1", "Announce changes to client lerp");
-	hFixLerpValue = CreateConVar("sm_fixlerp", "0", "Fix Lerp values clamping incorrectly when interp_ratio 0 is allowed");
+	hLogLerp = CreateConVar("sm_log_lerp", "1", "Log changes to client lerp", FCVAR_PLUGIN);
+	hAnnounceLerp = CreateConVar("sm_announce_lerp", "1", "Announce changes to client lerp", FCVAR_PLUGIN);
+	hFixLerpValue = CreateConVar("sm_fixlerp", "0", "Fix Lerp values clamping incorrectly when interp_ratio 0 is allowed", FCVAR_PLUGIN);
+	
+	RegConsoleCmd("sm_lerps", Lerps_Cmd, "List the Lerps of all players in game", FCVAR_PLUGIN);
 	
 	ScanAllPlayersLerp();
 }
 
 public OnClientDisconnect_Post(client)
 {
-		InvalidateCurrentLerp(client);
+	InvalidateCurrentLerp(client);
 }
 
 /* Lerp calculation adapted from hl2sdk's CGameServerClients::OnClientSettingsChanged */
 public OnClientSettingsChanged(client)
 {
-	ProcessPlayerLerp(client);
+	if(!IsFakeClient(client))
+	{
+		ProcessPlayerLerp(client);
+	}
+}
+
+public Action:Lerps_Cmd(client, args)
+{
+	new maxclients = GetMaxClients();
+	new lerpcnt;
+	for(new rclient=1; client < maxclients; rclient++)
+	{
+		if(IsClientInGame(rclient) && !IsFakeClient(rclient))
+		{
+			ReplyToCommand(client, "%02d. %N Lerp: %.02f", ++lerpcnt, rclient, (GetCurrentLerp(rclient)*1000));
+		}
+	}
+	return Plugin_Handled;
 }
 
 ScanAllPlayersLerp()
@@ -79,9 +98,7 @@ ScanAllPlayersLerp()
 }
 
 ProcessPlayerLerp(client)
-{
-	if(IsFakeClient(client)) return;
-	
+{	
 	new Float:lerp = GetLerpTime(client);
 	new Float:m_fLerpTime = GetEntPropFloat(client, Prop_Data, "m_fLerpTime");
 	
@@ -95,22 +112,22 @@ ProcessPlayerLerp(client)
 	{
 		if(ShouldAnnounceLerp())
 		{
-			PrintToChatAll("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*100, m_fLerpTime*100);
+			PrintToChatAll("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
 		}
 		if(ShouldLogLerp())
 		{
-			LogMessage("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*100, m_fLerpTime*100);
+			LogMessage("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
 		}
 	}
 	else
 	{
 		if(ShouldAnnounceLerp())
 		{
-			PrintToChatAll("%N's LerpTime set to %.02f", client, m_fLerpTime*100);
+			PrintToChatAll("%N's LerpTime set to %.02f", client, m_fLerpTime*1000);
 		}
 		if(ShouldLogLerp())
 		{
-			LogMessage("%N's LerpTime set to %.02f", client, m_fLerpTime*100);
+			LogMessage("%N's LerpTime set to %.02f", client, m_fLerpTime*1000);
 		}
 	}
 	SetCurrentLerp(client, m_fLerpTime);
