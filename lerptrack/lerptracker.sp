@@ -9,7 +9,7 @@ public Plugin:myinfo =
 	name = "LerpTracker",
 	author = "ProdigySim",
 	description = "Keep track of players' lerp settings",
-	version = "0.3",
+	version = "0.4",
 	url = "https://bitbucket.org/ProdigySim/misc-sourcemod-plugins"
 };
 
@@ -90,6 +90,7 @@ ScanAllPlayersLerp()
 	new maxclients = GetMaxClients();
 	for(new client=1; client < maxclients; client++)
 	{
+		InvalidateCurrentLerp(client);
 		if(IsClientInGame(client) && !IsFakeClient(client))
 		{
 			ProcessPlayerLerp(client);
@@ -99,24 +100,26 @@ ScanAllPlayersLerp()
 
 ProcessPlayerLerp(client)
 {	
-	new Float:lerp = GetLerpTime(client);
 	new Float:m_fLerpTime = GetEntPropFloat(client, Prop_Data, "m_fLerpTime");
 	
 	if(ShouldFixLerp())
 	{
-		SetEntPropFloat(client, Prop_Data, "m_fLerpTime", lerp);
-		m_fLerpTime = lerp;
+		m_fLerpTime = GetLerpTime(client);
+		SetEntPropFloat(client, Prop_Data, "m_fLerpTime", m_fLerpTime);
 	}
 	
-	if(IsCurrentLerpValid(client) && m_fLerpTime != GetCurrentLerp(client))
+	if(IsCurrentLerpValid(client))
 	{
-		if(ShouldAnnounceLerp())
+		if(m_fLerpTime != GetCurrentLerp(client))
 		{
-			PrintToChatAll("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
-		}
-		if(ShouldLogLerp())
-		{
-			LogMessage("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
+			if(ShouldAnnounceLerp())
+			{
+				PrintToChatAll("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
+			}
+			if(ShouldLogLerp())
+			{
+				LogMessage("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
+			}
 		}
 	}
 	else
