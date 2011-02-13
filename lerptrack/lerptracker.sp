@@ -9,7 +9,7 @@ public Plugin:myinfo =
 	name = "LerpTracker",
 	author = "ProdigySim",
 	description = "Keep track of players' lerp settings",
-	version = "0.4",
+	version = "0.5",
 	url = "https://bitbucket.org/ProdigySim/misc-sourcemod-plugins"
 };
 
@@ -65,7 +65,7 @@ public OnClientDisconnect_Post(client)
 /* Lerp calculation adapted from hl2sdk's CGameServerClients::OnClientSettingsChanged */
 public OnClientSettingsChanged(client)
 {
-	if(!IsFakeClient(client))
+	if(IsValidEntity(client) &&  !IsFakeClient(client))
 	{
 		ProcessPlayerLerp(client);
 	}
