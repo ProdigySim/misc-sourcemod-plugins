@@ -114,11 +114,11 @@ ProcessPlayerLerp(client)
 		{
 			if(ShouldAnnounceLerp())
 			{
-				PrintToChatAll("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
+				PrintToChatAll("%N's LerpTime Changed from %.01f to %.01f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
 			}
 			if(ShouldLogLerp())
 			{
-				LogMessage("%N's LerpTime Changed from %.02f to %.02f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
+				LogMessage("%N's LerpTime Changed from %.01f to %.01f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
 			}
 		}
 	}
@@ -126,11 +126,11 @@ ProcessPlayerLerp(client)
 	{
 		if(ShouldAnnounceLerp())
 		{
-			PrintToChatAll("%N's LerpTime set to %.02f", client, m_fLerpTime*1000);
+			PrintToChatAll("%N's LerpTime set to %.01f", client, m_fLerpTime*1000);
 		}
 		if(ShouldLogLerp())
 		{
-			LogMessage("%N's LerpTime set to %.02f", client, m_fLerpTime*1000);
+			LogMessage("%N's LerpTime set to %.01f", client, m_fLerpTime*1000);
 		}
 	}
 	SetCurrentLerp(client, m_fLerpTime);
