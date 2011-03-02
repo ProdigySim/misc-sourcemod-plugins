@@ -73,9 +73,8 @@ public OnClientSettingsChanged(client)
 
 public Action:Lerps_Cmd(client, args)
 {
-	new maxclients = GetMaxClients();
 	new lerpcnt;
-	for(new rclient=1; client < maxclients; rclient++)
+	for(new rclient=1; client <= MaxClients; rclient++)
 	{
 		if(IsClientInGame(rclient) && !IsFakeClient(rclient))
 		{
@@ -87,8 +86,7 @@ public Action:Lerps_Cmd(client, args)
 
 ScanAllPlayersLerp()
 {
-	new maxclients = GetMaxClients();
-	for(new client=1; client < maxclients; client++)
+	for(new client=1; client <= MaxClients; client++)
 	{
 		InvalidateCurrentLerp(client);
 		if(IsClientInGame(client) && !IsFakeClient(client))
