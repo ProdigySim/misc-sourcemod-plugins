@@ -82,9 +82,9 @@ const String:WeaponNames[WeaponId][] =
 	"weapon_sniper_scout", "weapon_rifle_m60", "weapon_tank_claw", // 36
 	"weapon_hunter_claw", "weapon_charger_claw", "weapon_boomer_claw", // 39
 	"weapon_smoker_claw", "weapon_spitter_claw", "weapon_jockey_claw", // 42
-	"weapon_machinegun", "fatal_vomit", "z_exploding_splat", // 45
-	"lunge_pounce", "lounge", "fullpull", // 48
-	"choke", "Throwing rock", "Turns on turbo physics", //51
+	"weapon_machinegun", "vomit", "splat", // 45
+	"pounce", "lounge", "pull", // 48
+	"choke", "rock", "physics", //51
 	"ammo", "upgrade_item" // 54
 };
 const String:WeaponModels[WeaponId][] =
