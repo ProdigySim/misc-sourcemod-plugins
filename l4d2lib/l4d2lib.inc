@@ -78,7 +78,7 @@ forward L4D2_OnRealRoundEnd(roundNumber);
  * 
  * @return The number of alive survivors
  */
-native L4D2_GetSurvivorCount()
+native L4D2_GetSurvivorCount();
 
 /**
  * @brief Returns the survivor of a specific index
@@ -87,7 +87,7 @@ native L4D2_GetSurvivorCount()
  * 
  * @return Client number of a survivor stored at the given index.
  */
-native L4D2_GetSurvivorOfIndex(index)
+native L4D2_GetSurvivorOfIndex(index);
 
 /**
  * @Called when a tank is first spawned into the game
