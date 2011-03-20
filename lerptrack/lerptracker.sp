@@ -9,7 +9,7 @@ public Plugin:myinfo =
 	name = "LerpTracker",
 	author = "ProdigySim",
 	description = "Keep track of players' lerp settings",
-	version = "0.5",
+	version = "0.6",
 	url = "https://bitbucket.org/ProdigySim/misc-sourcemod-plugins"
 };
 
@@ -78,7 +78,7 @@ public Action:Lerps_Cmd(client, args)
 	{
 		if(IsClientInGame(rclient) && !IsFakeClient(rclient))
 		{
-			ReplyToCommand(client, "%02d. %N Lerp: %.02f", ++lerpcnt, rclient, (GetCurrentLerp(rclient)*1000));
+			ReplyToCommand(client, "%02d. %N Lerp: %.01f", ++lerpcnt, rclient, (GetCurrentLerp(rclient)*1000));
 		}
 	}
 	return Plugin_Handled;
