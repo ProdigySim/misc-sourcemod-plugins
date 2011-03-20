@@ -76,13 +76,13 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 public OnMapStart()
 {
 	MapInfo_OnMapStart_Update();
-	Rounds_OnMapStart_Update();
 	Tanks_OnMapStart();
 }
 
 public OnMapEnd()
 {
 	MapInfo_OnMapEnd_Update();
+	Rounds_OnMapEnd_Update();
 }
 
 /* Events */

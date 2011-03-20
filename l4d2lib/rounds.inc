@@ -38,7 +38,7 @@ Rounds_OnRoundEnd_Update()
 }
 
 
-Rounds_OnMapStart_Update()
+Rounds_OnMapEnd_Update()
 {
 	iRoundNumber=0;
 	bInRound=false;
