@@ -7,7 +7,7 @@ public Plugin:myinfo =
 	name = "Versus Boss Spawn Persuasion",
 	author = "ProdigySim",
 	description = "Makes Versus Boss Spawns obey cvars",
-	version = "1.0",
+	version = "1.1",
 	url = "http://compl4d2.com/"
 }
 
