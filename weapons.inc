@@ -65,7 +65,7 @@ enum WeaponId
 	WEPID_UPGRADE_ITEM		// 55
 };
 
-const String:WeaponNames[WeaponId][] =
+new const String:WeaponNames[WeaponId][] =
 {
 	"weapon_none", "weapon_pistol", "weapon_smg", // 0
 	"weapon_pumpshotgun", "weapon_autoshotgun", "weapon_rifle", // 3
@@ -87,7 +87,8 @@ const String:WeaponNames[WeaponId][] =
 	"choke", "rock", "physics", //51
 	"ammo", "upgrade_item" // 54
 };
-const String:WeaponModels[WeaponId][] =
+
+new const String:WeaponModels[WeaponId][] =
 {
 	"",												
 	"/w_models/weapons/w_pistol_a.mdl",				
@@ -135,7 +136,7 @@ const String:WeaponModels[WeaponId][] =
 	"/w_models/weapons/w_eq_incendiary_ammopack.mdl",
 	"/w_models/weapons/w_eq_explosive_ammopack.mdl",
 	"/w_models/weapons/w_desert_eagle.mdl",			
-	"/w_models/weapons/w_smg_mp5.mdl"				
+	"/w_models/weapons/w_smg_mp5.mdl",				
 	"/w_models/weapons/w_rifle_sg552.mdl",			
 	"/w_models/weapons/w_sniper_awp.mdl",			
 	"/w_models/weapons/w_sniper_scout.mdl",			
@@ -171,7 +172,7 @@ static Handle:hWeaponNamesTrie;
  */
 stock L4D2Weapons_Init()
 {
-	if(hWeaponNamesTrie == NULL)
+	if(hWeaponNamesTrie == INVALID_HANDLE)
 	{
 		InitWeaponNamesTrie();
 	}
@@ -196,14 +197,14 @@ stock bool:HasValidWeaponModel(WeaponId:wepid)
  */
 stock WeaponId:WeaponNameToId(const String:weaponName[])
 {
-	if(hWeaponNamesTrie == NULL)
+	if(hWeaponNamesTrie == INVALID_HANDLE)
 	{
 		InitWeaponNamesTrie();
 	}
 	new WeaponID:id;
 	if(GetTrieValue(hWeaponNamesTrie, weaponName, id))
 	{
-		return id;
+		return WeaponId:id;
 	}
 	return WEPID_NONE;
 }
