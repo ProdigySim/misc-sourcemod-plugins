@@ -12,13 +12,13 @@ public Plugin:myinfo =
 }
 
 new Handle:hCvarEnabled;
-new Handle:hCvarSkipC7M1;
+new Handle:hCvarSkipStaticMaps;
 
 
 public OnPluginStart()
 {
 	hCvarEnabled = CreateConVar("l4d_obey_boss_spawn_cvars", "0", "Enable forcing boss spawns to obey boss spawn cvars");
-	hCvarSkipC7M1 = CreateConVar("l4d_obey_boss_spawn_except_c7m1", "0", "Don't override boss spawning rules on c7m1 (which has a tank spawn even with tank chance 0)");
+	hCvarSkipStaticMaps = CreateConVar("l4d_obey_boss_spawn_except_static", "0", "Don't override boss spawning rules on Static Tank Spawn maps (c7m1, c13m2)");
 }
 
 
@@ -49,11 +49,11 @@ public Action:L4D_OnGetMissionVSBossSpawning(&Float:spawn_pos_min, &Float:spawn_
 {
 	if(GetConVarBool(hCvarEnabled))
 	{
-		if(GetConVarBool(hCvarSkipC7M1))
+		if(GetConVarBool(hCvarSkipStaticMaps))
 		{
 			decl String:mapbuf[32];
 			GetCurrentMap(mapbuf, sizeof(mapbuf));
-			if(StrEqual(mapbuf, "c7m1_docks"))
+			if(StrEqual(mapbuf, "c7m1_docks") || StrEqual(mapbuf, "c13m2_southpinestream"))
 			{
 				return Plugin_Continue;
 			}
