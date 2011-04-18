@@ -76,7 +76,7 @@ public OnClientSettingsChanged(client)
 public Action:Lerps_Cmd(client, args)
 {
 	new lerpcnt;
-	for(new rclient=1; client <= MaxClients; rclient++)
+	for(new rclient=1; rclient <= MaxClients; rclient++)
 	{
 		if(IsClientInGame(rclient) && !IsFakeClient(rclient))
 		{
