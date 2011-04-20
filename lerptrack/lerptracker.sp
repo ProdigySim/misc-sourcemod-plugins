@@ -9,7 +9,7 @@ public Plugin:myinfo =
 	name = "LerpTracker",
 	author = "ProdigySim",
 	description = "Keep track of players' lerp settings",
-	version = "0.7",
+	version = "0.8",
 	url = "https://bitbucket.org/ProdigySim/misc-sourcemod-plugins"
 };
 
@@ -32,9 +32,13 @@ new Handle:hMaxInterpRatio;
 
 #define ShouldFixLerp() (GetConVarBool(hFixLerpValue))
 
-#define ShouldAnnounceLerp() (GetConVarBool(hAnnounceLerp))
+#define ShouldAnnounceLerpChanges() (GetConVarBool(hAnnounceLerp))
 
-#define ShouldLogLerp() (GetConVarBool(hLogLerp))
+#define ShouldAnnounceInitialLerp() (GetConVarInt(hAnnounceLerp) == 1)
+
+#define ShouldLogLerpChanges() (GetConVarBool(hLogLerp))
+
+#define ShouldLogInitialLerp() (GetConVarInt(hLogLerp) == 1)
 
 #define IsCurrentLerpValid(%0) (g_fCurrentLerps[(%0)] >= 0.0)
 
@@ -49,8 +53,8 @@ public OnPluginStart()
 	hMaxUpdateRate = FindConVar("sv_maxupdaterate");
 	hMinInterpRatio = FindConVar("sv_client_min_interp_ratio");
 	hMaxInterpRatio= FindConVar("sv_client_max_interp_ratio");
-	hLogLerp = CreateConVar("sm_log_lerp", "1", "Log changes to client lerp", FCVAR_PLUGIN);
-	hAnnounceLerp = CreateConVar("sm_announce_lerp", "1", "Announce changes to client lerp", FCVAR_PLUGIN);
+	hLogLerp = CreateConVar("sm_log_lerp", "1", "Log changes to client lerp. 1=Log initial lerp and changes 2=Log changes only", FCVAR_PLUGIN);
+	hAnnounceLerp = CreateConVar("sm_announce_lerp", "1", "Announce changes to client lerp. 1=Announce initial lerp and changes 2=Announce changes only", FCVAR_PLUGIN);
 	hFixLerpValue = CreateConVar("sm_fixlerp", "0", "Fix Lerp values clamping incorrectly when interp_ratio 0 is allowed", FCVAR_PLUGIN);
 	hMaxLerpValue = CreateConVar("sm_max_interp", "0.5", "Kick players whose settings breach this Hard upper-limit for player lerps.", FCVAR_PLUGIN);
 	
@@ -112,11 +116,11 @@ ProcessPlayerLerp(client)
 	{
 		if(m_fLerpTime != GetCurrentLerp(client))
 		{
-			if(ShouldAnnounceLerp())
+			if(ShouldAnnounceLerpChanges())
 			{
 				PrintToChatAll("%N's LerpTime Changed from %.01f to %.01f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
 			}
-			if(ShouldLogLerp())
+			if(ShouldLogLerpChanges())
 			{
 				LogMessage("%N's LerpTime Changed from %.01f to %.01f", client, GetCurrentLerp(client)*1000, m_fLerpTime*1000);
 			}
@@ -124,11 +128,11 @@ ProcessPlayerLerp(client)
 	}
 	else
 	{
-		if(ShouldAnnounceLerp())
+		if(ShouldAnnounceInitialLerp())
 		{
 			PrintToChatAll("%N's LerpTime set to %.01f", client, m_fLerpTime*1000);
 		}
-		if(ShouldLogLerp())
+		if(ShouldLogInitialLerp())
 		{
 			LogMessage("%N's LerpTime set to %.01f", client, m_fLerpTime*1000);
 		}
@@ -139,7 +143,7 @@ ProcessPlayerLerp(client)
 	{
 		KickClient(client, "Lerp %.01f exceeds server max of %.01f", m_fLerpTime*1000, max*1000);
 		PrintToChatAll("%N kicked for lerp too high. %.01f > %.01f", client, m_fLerpTime*1000, max*1000);
-		if(ShouldLogLerp())
+		if(ShouldLogLerpChanges())
 		{
 			LogMessage("Kicked %L for having lerp %.01f (max: %.01f)", client, m_fLerpTime*1000, max*1000);
 		}
