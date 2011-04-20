@@ -137,11 +137,11 @@ ProcessPlayerLerp(client)
 	new Float:max=GetConVarFloat(hMaxLerpValue);
 	if(m_fLerpTime > max)
 	{
-		KickClient(client, "Lerp %.01fms exceeds server max of %.01f", m_fLerpTime, max);
-		PrintToChatAll("%L kicked for lerp too high. %.01f > %.01f", client, m_fLerpTime, max);
+		KickClient(client, "Lerp %.01f exceeds server max of %.01f", m_fLerpTime*1000, max*1000);
+		PrintToChatAll("%N kicked for lerp too high. %.01f > %.01f", client, m_fLerpTime*1000, max*1000);
 		if(ShouldLogLerp())
 		{
-			LogMessage("Kicked %L for having lerp %.01f (max: %.01f)", client, m_fLerpTime, max);
+			LogMessage("Kicked %L for having lerp %.01f (max: %.01f)", client, m_fLerpTime*1000, max*1000);
 		}
 	}
 	else
