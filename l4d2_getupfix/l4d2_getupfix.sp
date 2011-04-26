@@ -3,19 +3,16 @@
 #include <sdktools> 
 
 #include <left4downtown>
-//#include <md5lib>
 #include <sdkhooks>
 
-// global definitions
-#define PLUGIN_VERSION 		"1.0.3"
-
-public Plugin:myinfo = {
+public Plugin:myinfo = 
+{
 	name = "L4D2 Double Get-Up Fix",
 	author = "Blade, ProdigySim, DieTeetasse",
 	description = "Double Get Up fix.",
-	version = PLUGIN_VERSION,
-	url = ""
-};
+	version = "1.4",
+	url = "http://bitbucket.org/ProdigySim/misc-plugins/"
+}
 
 // frames: 64, fps: 30, length: 2.133
 static const Float:ANIM_HUNTER_LEN = 2.2; 
