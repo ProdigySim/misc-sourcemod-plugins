@@ -1,8 +1,5 @@
 #pragma semicolon 1
 #include <sourcemod>
-#include <sdktools> 
-
-#include <left4downtown>
 #include <sdkhooks>
 
 // global definitions
@@ -57,7 +54,7 @@ public OnMapStart() {
 	numEnabled = -1;
 }
 
-Action:OnTakeDamage(victim, attacker, inflictor, Float:damage, damagetype) {
+public Action:SDKHooks_OnTakeDamage(victim, &attacker, &inflictor, &Float:damage, &damagetype) {
 	// enabled?
 	if (numEnabled == -1) return Plugin_Continue;
 	
@@ -78,7 +75,7 @@ Action:OnTakeDamage(victim, attacker, inflictor, Float:damage, damagetype) {
 	if (!isWitch) {
 		if (!IsClientInGame(victim)) return Plugin_Continue;
 		if (GetClientTeam(victim) != TEAM_INFECTED) return Plugin_Continue;	
-		if (GetInfectedClass(victim) != ZOMBIECLASS_TANK) return Plugin_Continue;
+		if (GetEntProp(victim, Prop_Send, "m_zombieClass") != ZOMBIECLASS_TANK) return Plugin_Continue;
 	}
 	
 	// attacker is valid?
