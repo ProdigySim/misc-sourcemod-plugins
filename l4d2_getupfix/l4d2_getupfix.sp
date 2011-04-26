@@ -1,5 +1,6 @@
 #pragma semicolon 1
 #include <sourcemod>
+#include <survivors>
 
 
 public Plugin:myinfo = 
@@ -12,21 +13,23 @@ public Plugin:myinfo =
 }
 
 // frames: 64, fps: 30, length: 2.133
-static const Float:ANIM_HUNTER_LEN = 2.2; 
+#define ANIM_HUNTER_LEN 2.2
 // frames: 85, fps 30, length: 2.833
-static const Float:ANIM_CHARGER_LEN = 2.9;
+#define ANIM_CHARGER_LEN 2.9
 
-static const getUpAnimations[8][2] = {
+new const getUpAnimations[SurvivorCharacter][2] = {
 	// 0: Coach, 1: Nick, 2: Rochelle, 3: Ellis
 	{621, 656}, {620, 667}, {629, 674}, {625, 671},
 	// 4: Louis, 5: Zoey, 6: Bill, 7: Francis
 	{528, 759}, {648, 693}, {528, 759}, {531, 760}
 };
 
-static PropOff_nSequence;
-static PropOff_flCycle;
+new PropOff_nSequence;
+new PropOff_flCycle;
+
 
 public OnPluginStart() {
+	L4D2Survivors_Init();
 	HookEvent("pounce_end", Event_PounceOrPummel);
 	HookEvent("charger_pummel_end", Event_PounceOrPummel);
 	
@@ -47,9 +50,8 @@ public Action:Timer_ProcessClient(Handle:timer, any:client) {
 }
 
 ProcessClient(client) {
-	if (!IsClientInGame(client)) return;
-	new charIndex = GetSurvivorIndex(client);	
-	if (charIndex == -1) return;
+	new SurvivorCharacter:charIndex = IdentifySurvivor(client);	
+	if (charIndex == SC_NONE) return;
 	
 	new sequence = GetEntData(client, PropOff_nSequence);
 	
@@ -75,9 +77,8 @@ public Action:Timer_CheckClient(Handle:timer, any:tempStack) {
 	PopStackCell(tempStack, oldSequence);
 	PopStackCell(tempStack, client);
 	
-	if (!IsClientInGame(client)) return;
-	new charIndex = GetSurvivorIndex(client);	
-	if (charIndex == -1) return;	
+	new SurvivorCharacter:charIndex = IdentifySurvivor(client);	
+	if (charIndex == SC_NONE) return;
 	
 	new newSequence = GetEntData(client, PropOff_nSequence);
 	
@@ -91,31 +92,6 @@ public Action:Timer_CheckClient(Handle:timer, any:tempStack) {
 	
 	// Apply!
 	ApplyAnimationSkip(client);
-}
-
-GetSurvivorIndex(client) {
-	new String:clientModel[42];
-	GetClientModel(client, clientModel, sizeof(clientModel));
-	
-	// get survivor char
-	if (StrEqual(clientModel, "models/survivors/survivor_coach.mdl"))
-		return 0;
-	else if (StrEqual(clientModel, "models/survivors/survivor_gambler.mdl"))
-		return 1;
-	else if (StrEqual(clientModel, "models/survivors/survivor_producer.mdl"))
-		return 2;
-	else if (StrEqual(clientModel, "models/survivors/survivor_mechanic.mdl"))
-		return 3;
-	else if (StrEqual(clientModel, "models/survivors/survivor_manager.mdl"))
-		return 4;
-	else if (StrEqual(clientModel, "models/survivors/survivor_teenangst.mdl"))
-		return 5;
-	else if (StrEqual(clientModel, "models/survivors/survivor_namvet.mdl"))
-		return 6;
-	else if (StrEqual(clientModel, "models/survivors/survivor_biker.mdl"))
-		return 7;		
-
-	return -1;
 }
 
 ApplyAnimationSkip(client) {
