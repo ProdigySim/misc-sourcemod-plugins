@@ -1,9 +1,6 @@
 #pragma semicolon 1
 #include <sourcemod>
-#include <sdktools> 
 
-#include <left4downtown>
-#include <sdkhooks>
 
 public Plugin:myinfo = 
 {
@@ -11,7 +8,7 @@ public Plugin:myinfo =
 	author = "Blade, ProdigySim, DieTeetasse",
 	description = "Double Get Up fix.",
 	version = "1.4",
-	url = "http://bitbucket.org/ProdigySim/misc-plugins/"
+	url = "http://bitbucket.org/ProdigySim/misc-sourcemod-plugins/"
 }
 
 // frames: 64, fps: 30, length: 2.133
