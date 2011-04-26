@@ -8,7 +8,7 @@ public Plugin:myinfo =
 	author = "AtomicStryker, DieTeeTasse, ProdigySim",
 	description = "Keep survivors from hearing jumping infected ghosts.",
 	version = "1.0",
-	url = "http://bitbucket.org/ProdigySim/misc-plugins/"
+	url = "http://bitbucket.org/ProdigySim/misc-sourcemod-plugins/"
 }
 
 
