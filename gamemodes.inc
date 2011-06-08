@@ -35,10 +35,12 @@ enum L4D2GameMode
     L4D2GM_COMMUNITY2,
     L4D2GM_COMMUNITY3,
     L4D2GM_COMMUNITY4,
-    L4D2GM_COMMUNITY5
+    L4D2GM_COMMUNITY5,
+	// Don't add after here
+	L4D2GameModesCount
 };
 
-new const String:g_sL4D2_GameModeStrings[L4D2GameMode][] = {
+new const String:g_sL4D2_GameModeStrings[L4D2GameModesCount][] = {
   "coop",  "realism",  "survival",
   "versus",  "scavenge",  "mutation1",
   "mutation2",  "mutation3",  "mutation4",
@@ -51,7 +53,7 @@ new const String:g_sL4D2_GameModeStrings[L4D2GameMode][] = {
   "community3",  "community4",  "community5"
 };
 
-new const L4D2GameMode:g_iL4D2_BaseGameModes[L4D2GameMode] = {
+new const L4D2GameMode:g_iL4D2_BaseGameModes[L4D2GameModesCount] = {
     L4D2GM_COOP, L4D2GM_REALISM, L4D2GM_SURVIVAL,   // coop, realism, survival
     L4D2GM_VERSUS, L4D2GM_SCAVENGE, L4D2GM_COOP,    // versus scavenge mutation1
     L4D2GM_COOP, L4D2GM_COOP, L4D2GM_COOP,          // mutation 2-4
@@ -72,9 +74,9 @@ stock InitializeGameModesTrie()
 	CloseHandle(game_modes_trie);
     
     game_modes_trie = CreateTrie();
-    for(new i = 0; i < _:L4D2GameMode; i++)
+    for(new i = 0; i < _:L4D2GameModesCount; i++)
     {
-	SetTrieValue(game_modes_trie, g_sL4D2_GameModeStrings[L4D2GameMode:i], i);
+		SetTrieValue(game_modes_trie, g_sL4D2_GameModeStrings[i], i);
     }
 }
 
@@ -87,7 +89,7 @@ stock L4D2GameMode:GetBaseGameMode(L4D2GameMode:gamemode)
 
 stock bool:IsValidGameMode(L4D2GameMode:gamemode)
 {
-    return gamemode >= L4D2GM_COOP && gamemode < L4D2GameMode;
+    return gamemode > L4D2GM_UNKNOWN && gamemode < L4D2GameModesCount;
 }
 
 stock L4D2GameMode:GameModeStringToId(const String:gamemode[])
