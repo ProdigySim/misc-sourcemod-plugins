@@ -7,7 +7,7 @@ public Plugin:myinfo =
 	name = "L4D HOTs",
 	author = "ProdigySim",
 	description = "Pills and Adrenaline heal over time",
-	version = "0.1",
+	version = "0.2",
 	url = "https://bitbucket.org/ProdigySim/misc-sourcemod-plugins"
 }
 
@@ -42,10 +42,10 @@ public OnPluginStart()
 
 public OnPluginEnd()
 {
-	DisablePillHot();
+	DisablePillHot(false);
 	if(IsL4D2)
 	{
-		DisableAdrenHot();
+		DisableAdrenHot(false);
 	}
 }
 
@@ -82,9 +82,9 @@ EnablePillHot()
 	HookEvent("pills_used", PillsUsed_Event);
 }
 
-DisablePillHot()
+DisablePillHot(bool:unhook=true)
 {
-	UnhookEvent("pills_used", PillsUsed_Event);
+	if(unhook) UnhookEvent("pills_used", PillsUsed_Event);
 	SetConVarInt(g_hPillCvar, OldPillValue);
 }
 
@@ -95,9 +95,9 @@ EnableAdrenHot()
 	HookEvent("adrenaline_used", AdrenalineUsed_Event);
 }
 
-DisableAdrenHot()
+DisableAdrenHot(bool:unhook=true)
 {
-	UnhookEvent("adrenaline_used", AdrenalineUsed_Event);
+	if(unhook) UnhookEvent("adrenaline_used", AdrenalineUsed_Event);
 	SetConVarInt(g_hAdrenCvar, OldAdrenValue);
 }
 
