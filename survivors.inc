@@ -55,7 +55,14 @@ static InitSurvivorModelTrie()
 	}
 }
 
-stock SurvivorCharacter:IdentifySurvivor(const client)
+/**
+ * Identifies a client's survivor character based on their current model.
+ * @remark SC_NONE on errors
+ *
+ * @param client 	Survivor client to identify
+ * @return SurvivorCharacter index identifying the survivor, or SC_NONE if not identified.
+ */
+stock SurvivorCharacter:IdentifySurvivor(client)
 {
 	if (!client || !IsClientInGame(client) || GetClientTeam(client) != 2)
 	{
@@ -66,6 +73,13 @@ stock SurvivorCharacter:IdentifySurvivor(const client)
 	return ClientModelToSC(clientModel);
 }
 
+/**
+ * Identifies the survivor character corresponding to a player model.
+ * @remark SC_NONE on errors, uses SurvivorModelTrie
+ *
+ * @param model		Player model to identify
+ * @return SurvivorCharacter index identifying the model, or SC_NONE if not identified.
+ */
 stock SurvivorCharacter:ClientModelToSC(const String:model[])
 {
 	if(hSurvivorModelsTrie == INVALID_HANDLE)

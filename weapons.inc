@@ -178,11 +178,25 @@ stock L4D2Weapons_Init()
 	}
 }
 
+/**
+ * Performs bounds checking to determine if a WeaponId is valid
+ * @remark Simple check to see if wepid has a garbage value
+ *
+ * @param wepid		WeaponId to check for validity
+ * @return True if wepid is valid, false otherwise.
+ */
 stock bool:IsValidWeaponId(WeaponId:wepid)
 {
 	return wepid >= WEPID_NONE && wepid < WeaponId;
 }
 
+/**
+ * Checks to see if a given weaponid has a known WeaponModel in this file's model array
+ * @remark Some weapons (like weapon_melee) have multiple valid models, and this will report false for them.
+ *
+ * @param wepid		WeaponId to check for a known weapon model for.
+ * @return True if a valid weapon model exists for wepid, false otherwise.
+ */
 stock bool:HasValidWeaponModel(WeaponId:wepid)
 {
 	// return IsValidWeaponId(wepid) && WeaponModels[wepid][0] == '\0';
@@ -218,7 +232,14 @@ static InitWeaponNamesTrie()
 	}
 }
 
-stock WeaponId:IdentifyWeapon(const entity)
+/**
+ * Identifies a weapon spawn or weapon entity as a WeaponID
+ * @remark Should work on most weapon ents--even spawns, singles, held, etc.
+ *
+ * @param entity		Index of entity to identify
+ * @return WeaponID for the entity if it is a weapon, WEPID_NONE otherwise
+ */
+stock WeaponId:IdentifyWeapon(entity)
 {
 	if(!entity || !IsValidEntity(entity) || !IsValidEdict(entity))
 	{
@@ -247,9 +268,20 @@ stock WeaponId:IdentifyWeapon(const entity)
 
 // returns an entity of the new weapon spawn on success
 // -1 on failure or removal
+/**
+ * Attempts to convert a weapon spawn entity to a given weapon spawn
+ * @remark Truthfully, this will work on any entity with origin/rotation.
+ *		Also, requires the weapon to either have a Valid weapon model or have one provided
+ *
+ * @param entity		Index of entity to convert to weapon spawn
+ * @param wepid			WeaponId of the weapon to have the spawner hold
+ * @param count			Weapon count for the spawner (default 5)
+ * @param model			World model to use for the weapon spawn
+ * @return entity of the new weapon spawn, or -1 on errors.
+ */
 stock ConvertWeaponSpawn(entity, WeaponId:wepid, count=5, const String:model[] = "")
 {
-	if(!IsValidEntity(edict)) return -1;
+	if(!IsValidEntity(entity)) return -1;
 	if(!IsValidWeaponId(wepid)) return -1;
 	if(model[0] == '\0' && !HasValidWeaponModel(wepid)) return -1;
 	
