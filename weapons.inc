@@ -202,7 +202,7 @@ stock bool:IsValidWeaponId(WeaponId:wepid)
 stock bool:HasValidWeaponModel(WeaponId:wepid)
 {
 	// return IsValidWeaponId(wepid) && WeaponModels[wepid][0] == '\0';
-	return WeaponModels[wepid][0] == '\0';
+	return WeaponModels[wepid][0] != '\0';
 }
 
 /**
