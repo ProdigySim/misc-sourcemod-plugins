@@ -1,4 +1,6 @@
 #include <adt_trie>
+#include <sourcemod>
+#include <sdktools>
 
 #if defined __l4d2_weapons_inc__
 #endinput
@@ -253,11 +255,11 @@ stock WeaponId:IdentifyWeapon(entity)
 
 	if(StrEqual(class, "weapon_spawn"))
 	{
-		return WeaponId:GetEntProp(iEntity,Prop_Send,"m_weaponID");
+		return WeaponId:GetEntProp(entity,Prop_Send,"m_weaponID");
 	}
 
 	new len = strlen(class);
-	if(StrEqual(class[len-6], "_spawn"))
+	if(len-6 > 0 && StrEqual(class[len-6], "_spawn"))
 	{
 		class[len-6]='\0';
 		return WeaponNameToId(class);
@@ -286,7 +288,7 @@ stock ConvertWeaponSpawn(entity, WeaponId:wepid, count=5, const String:model[] =
 	if(model[0] == '\0' && !HasValidWeaponModel(wepid)) return -1;
 	
 	
-	new Float:origins, angles;
+	new Float:origins[3], Float:angles[3];
 	GetEntPropVector(entity, Prop_Send, "m_vecOrigin", origins);
 	GetEntPropVector(entity, Prop_Send, "m_angRotation", angles);
 	
