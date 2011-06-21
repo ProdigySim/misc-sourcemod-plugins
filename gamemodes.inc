@@ -68,6 +68,12 @@ new const L4D2GameMode:g_iL4D2_BaseGameModes[L4D2GameModesCount] = {
 
 static Handle:game_modes_trie;
 
+/**
+ * Initializes internal structure necessary for gamemodes.inc functions
+ * @remark It is recommended that you run this function on plugin start, but not necessary
+ *
+ * @noreturn
+ */
 stock InitializeGameModesTrie()
 {
     if(game_modes_trie != INVALID_HANDLE) 
@@ -80,6 +86,14 @@ stock InitializeGameModesTrie()
     }
 }
 
+
+/**
+ * Gets the base gamemode of the given gamemode.
+ * @remark Good for finding if a mutation is coop/versus/scavenge/survival
+ *
+ * @param gamemode	Gamemode to lookup base gamemode of
+ * @return L4D2GameMode index of the base gamemode of the given gamemode
+ */
 stock L4D2GameMode:GetBaseGameMode(L4D2GameMode:gamemode)
 {
     if(IsValidGameMode(gamemode))
@@ -87,11 +101,26 @@ stock L4D2GameMode:GetBaseGameMode(L4D2GameMode:gamemode)
     return L4D2GM_UNKNOWN;
 }
 
+
+/**
+ * Performs bounds checking to determine if a gamemode ID is known/valid
+ * @remark Simple check to see if gamemode is valid/known
+ *
+ * @param gamemode	L4D2GameMode to check for validity
+ * @return True if gamemode is valid, false otherwise.
+ */
 stock bool:IsValidGameMode(L4D2GameMode:gamemode)
 {
     return gamemode > L4D2GM_UNKNOWN && gamemode < L4D2GameModesCount;
 }
 
+
+/**
+ * Tries to look up a L4D2Gamemode for a given Gamemode Name.
+ *
+ * @param gamemode 	Name of the gamemode to look up
+ * @return			The corresponding L4D2GameMode if found, else L4D2GM_UNKNOWN
+ */
 stock L4D2GameMode:GameModeStringToId(const String:gamemode[])
 {
     if(game_modes_trie == INVALID_HANDLE)
@@ -104,8 +133,14 @@ stock L4D2GameMode:GameModeStringToId(const String:gamemode[])
     return L4D2GM_UNKNOWN;
 }
 
+/**
+ * Tries to look up the base L4D2Gamemode for a given Gamemode Name.
+ * @remark This is the same as looking up the GameModeId, then doing GetBaseGameMode
+ *
+ * @param gamemode 	Name of the gamemode to look up
+ * @return			The corresponding base L4D2GameMode if found, else L4D2GM_UNKNOWN
+ */
 stock L4D2GameMode:FindBaseGameMode(const String:gamemode[])
 {
     return GetBaseGameMode(GameModeStringToId(gamemode));
 }
-
