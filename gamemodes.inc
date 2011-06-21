@@ -1,6 +1,11 @@
 #include <sourcemod> 
 #include <adt_trie>
 
+#if defined __l4d2_gamemodes_inc__
+#endinput
+#endif
+#define __l4d2_gamemodes_inc__
+
 // L4D2 Game modes
 
 // Gamemode enumerations. These values are arbitrary.
