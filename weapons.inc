@@ -7,6 +7,10 @@
 #endif
 #define __l4d2_weapons_inc__
 
+
+// Weapon ID enumerations.
+// These values are *NOT* arbitrary! 
+// They are used in game as the weaponid for weapon_spawn entities
 enum WeaponId
 {
 	WEPID_NONE,				// 0
@@ -67,6 +71,7 @@ enum WeaponId
 	WEPID_UPGRADE_ITEM		// 55
 };
 
+// Weapon names for each of the weapons, used in identification.
 new const String:WeaponNames[WeaponId][] =
 {
 	"weapon_none", "weapon_pistol", "weapon_smg", // 0
@@ -90,6 +95,8 @@ new const String:WeaponNames[WeaponId][] =
 	"ammo", "upgrade_item" // 54
 };
 
+// World Weapon models for each of the weapons. Useful for making new weapon spawns
+// Some models are left blank because no single model can be given, or none is known.
 new const String:WeaponModels[WeaponId][] =
 {
 	"",												

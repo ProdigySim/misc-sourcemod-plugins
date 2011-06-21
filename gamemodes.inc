@@ -3,6 +3,7 @@
 
 // L4D2 Game modes
 
+// Gamemode enumerations. These values are arbitrary.
 enum L4D2GameMode
 {
   L4D2GM_UNKNOWN = -1,
@@ -40,6 +41,7 @@ enum L4D2GameMode
 	L4D2GameModesCount
 };
 
+// Names of the gamemodes, as seen in gamemodes.txt
 new const String:g_sL4D2_GameModeStrings[L4D2GameModesCount][] = {
   "coop",  "realism",  "survival",
   "versus",  "scavenge",  "mutation1",
@@ -53,6 +55,7 @@ new const String:g_sL4D2_GameModeStrings[L4D2GameModesCount][] = {
   "community3",  "community4",  "community5"
 };
 
+// Base gamemodes for each gamemode, as seen in gamemodes.txt
 new const L4D2GameMode:g_iL4D2_BaseGameModes[L4D2GameModesCount] = {
     L4D2GM_COOP, L4D2GM_REALISM, L4D2GM_SURVIVAL,   // coop, realism, survival
     L4D2GM_VERSUS, L4D2GM_SCAVENGE, L4D2GM_COOP,    // versus scavenge mutation1

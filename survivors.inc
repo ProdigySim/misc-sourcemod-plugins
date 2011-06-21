@@ -17,6 +17,22 @@ enum SurvivorCharacter {
 	SC_BILL, //6
 	SC_FRANCIS //7
 };
+
+// Names of the survivors
+// TODO: languages?
+new const String:SurvivorNames[SurvivorCharacter][] = {
+	"Unknown",
+	"Coach",
+	"Nick",
+	"Rochelle",
+	"Ellis",
+	"Louis",
+	"Zoey",
+	"Bill",
+	"Francis"
+};
+
+// Models for each of the characters
 new const String:SurvivorModels[SurvivorCharacter][] = {
 	"models/survivors/survivor_coach.mdl",
 	"models/survivors/survivor_gambler.mdl",
