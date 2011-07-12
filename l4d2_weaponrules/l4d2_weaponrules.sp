@@ -2,13 +2,20 @@
 #include <sourcemod>
 #include <weapons>
 
+#define DEBUG 0
 
-new g_GlobalWeaponRules[WeaponId]={-1};
+new g_GlobalWeaponRules[WeaponId]={-1, ...};
 
 public OnPluginStart()
 {
 	RegServerCmd("l4d2_addweaponrule", AddWeaponRuleCb);
 	HookEvent("round_start", RoundStartCb, EventHookMode_PostNoCopy);
+	ResetWeaponRules();
+}
+
+ResetWeaponRules()
+{
+	for(new i=0; i < _:WeaponId; i++) g_GlobalWeaponRules[i]=-1;
 }
 
 public RoundStartCb(Handle:event, const String:name[], bool:dontBroadcast)
@@ -32,7 +39,6 @@ public Action:AddWeaponRuleCb(args)
 	new WeaponId:to = WeaponNameToId2(weaponbuf);
 
 	AddWeaponRule(match, _:to);
-
 	return Plugin_Handled;
 }
 
@@ -42,6 +48,10 @@ AddWeaponRule(WeaponId:match, to)
 	if(IsValidWeaponId(match) && (to == -1 || IsValidWeaponId(WeaponId:to)))
 	{
 		g_GlobalWeaponRules[match] = _:to;
+#if DEBUG
+		PrintToServer("Added weapon rule: %d to %d", match, to);
+#endif
+
 	}
 }
 
@@ -56,9 +66,15 @@ WeaponSearchLoop()
 			if(g_GlobalWeaponRules[source] == _:WEPID_NONE)
 			{
 				AcceptEntityInput(ent, "kill");
+				#if DEBUG
+				PrintToServer("Found Weapon %d, killing", source);
+				#endif
 			}
 			else
 			{
+				#if DEBUG
+				PrintToServer("Found Weapon %d, converting to %d", source, g_GlobalWeaponRules[source]);
+				#endif
 				ConvertWeaponSpawn(ent, WeaponId:g_GlobalWeaponRules[source]);
 			}
 		}
@@ -74,7 +90,7 @@ stock WeaponId:WeaponNameToId2(const String:name[])
 	if(wepid == WEPID_NONE)
 	{
 		strcopy(namebuf[7], sizeof(namebuf)-7, name);
-		wepid-WeaponNameToId(name);
+		wepid=WeaponNameToId(namebuf);
 	}
 	return wepid;
 }
