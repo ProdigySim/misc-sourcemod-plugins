@@ -9,8 +9,15 @@ new g_GlobalWeaponRules[WeaponId]={-1, ...};
 public OnPluginStart()
 {
 	RegServerCmd("l4d2_addweaponrule", AddWeaponRuleCb);
+	RegServerCmd("l4d2_resetweaponrules", ResetWeaponRulesCb);
 	HookEvent("round_start", RoundStartCb, EventHookMode_PostNoCopy);
 	ResetWeaponRules();
+}
+
+public Action:ResetWeaponRulesCb(args)
+{
+	ResetWeaponRules();
+	return Plugin_Handled;
 }
 
 ResetWeaponRules()
