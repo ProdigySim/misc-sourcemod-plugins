@@ -6,6 +6,10 @@
 
 new g_GlobalWeaponRules[WeaponId]={-1, ...};
 
+// state tracking for roundstart looping
+new g_bRoundStartHit;
+new g_bConfigsExecuted;
+
 public OnPluginStart()
 {
 	RegServerCmd("l4d2_addweaponrule", AddWeaponRuleCb);
@@ -27,7 +31,30 @@ ResetWeaponRules()
 
 public RoundStartCb(Handle:event, const String:name[], bool:dontBroadcast)
 {
-	WeaponSearchLoop();
+	CreateTimer(0.3, RoundStartDelay, INVALID_HANDLE, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public OnMapStart()
+{
+	g_bRoundStartHit=false;
+	g_bConfigsExecuted=false;
+}
+
+public OnConfigsExecuted()
+{
+	g_bConfigsExecuted=true;
+	if(g_bRoundStartHit)
+	{
+		WeaponSearchLoop();
+	}
+}
+public Action:RoundStartDelay(Handle:timer)
+{
+	g_bRoundStartHit=true;
+	if(g_bConfigsExecuted)
+	{
+		WeaponSearchLoop();
+	}
 }
 
 public Action:AddWeaponRuleCb(args)
