@@ -77,7 +77,7 @@ new const String:WeaponNames[WeaponId][] =
 	"weapon_none", "weapon_pistol", "weapon_smg", // 0
 	"weapon_pumpshotgun", "weapon_autoshotgun", "weapon_rifle", // 3
 	"weapon_hunting_rifle", "weapon_smg_silenced", "weapon_shotgun_chrome", // 6
-	"weapon_rifle_deset", "weapon_sniper_military", "weapon_shotgun_spas", // 9
+	"weapon_rifle_desert", "weapon_sniper_military", "weapon_shotgun_spas", // 9
 	"weapon_first_aid_kit", "weapon_molotov", "weapon_pipe_bomb", // 12
 	"weapon_pain_pills", "weapon_gascan", "weapon_propanetank",  // 15
 	"weapon_oxygentank", "weapon_melee", "weapon_chainsaw",  // 18
@@ -100,15 +100,15 @@ new const String:WeaponNames[WeaponId][] =
 new const String:WeaponModels[WeaponId][] =
 {
 	"",												
-	"/w_models/weapons/w_pistol_a.mdl",				
+	"/w_models/weapons/w_pistol_B.mdl",				
 	"/w_models/weapons/w_smg_uzi.mdl",				
-	"/w_models/weapons/w_pumpshotgun.mdl",			
+	"/w_models/weapons/w_shotgun.mdl",			
 	"/w_models/weapons/w_autoshot_m4super.mdl",		
 	"/w_models/weapons/w_rifle_m16a2.mdl",			
 	"/w_models/weapons/w_sniper_mini14.mdl",		
 	"/w_models/weapons/w_smg_a.mdl",				
 	"/w_models/weapons/w_pumpshotgun_a.mdl",		
-	"/w_models/weapons/w_desert_rifle.mdl",			// 	"/w_models/weapons/w_rifle_b.mdl"
+	"/w_models/weapons/w_desert_rifle.mdl",			// "/w_models/weapons/w_rifle_b.mdl"
 	"/w_models/weapons/w_sniper_military.mdl",		
 	"/w_models/weapons/w_shotgun_spas.mdl",			
 	"/w_models/weapons/w_eq_medkit.mdl",			
@@ -137,7 +137,7 @@ new const String:WeaponModels[WeaponId][] =
 	"",												
 	"/w_models/weapons/w_eq_adrenaline.mdl",		
 	"/w_models/weapons/w_eq_defibrillator.mdl",		
-	"/w_models/weapons/w_eq_bileflask.mdl",			
+	"/w_models/weapons/w_eq_bile_flask.mdl",			
 	"/w_models/weapons/w_rifle_ak47.mdl",			
 	"/props_junk/gnome.mdl",						
 	"/w_models/weapons/w_cola.mdl",					
