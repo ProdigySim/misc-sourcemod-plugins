@@ -5,9 +5,9 @@
 public Plugin:myinfo = 
 {
 	name = "L4D2 Infected Friendly Fire Disable",
-	author = "ProdigySim",
+	author = "ProdigySim, Don",
 	description = "Disables friendly fire between infected players.",
-	version = "1.1",
+	version = "1.2",
 	url = "http://bitbucket.org/ProdigySim/misc-sourcemod-plugins/"
 }
 
@@ -44,12 +44,17 @@ public OnClientPutInServer(client)
 
 public Action:OnTakeDamage(victim, &attacker, &inflictor, &Float:damage, &damagetype, &weapon, Float:damageForce[3], Float:damagePosition[3])
 {
-	if(GetConVarBool(cvar_ffblock) && attacker > 0 && attacker <= MaxClients && GetClientTeam(victim) == 3 && GetClientTeam(attacker) == 3)
+	if(GetConVarBool(cvar_ffblock) && IsClientAndInGame(victim) && GetClientTeam(victim) == 3 && IsClientAndInGame(attacker) && GetClientTeam(attacker) == 3)
 	{
-		if(!GetConVarBool(cvar_allow_tank_ff) || GetEntProp(attacker, Prop_Send, "m_zombieClass") != 8) // If no tank ff or attacker is tank
+		if(!GetConVarBool(cvar_allow_tank_ff) || GetEntProp(attacker, Prop_Send, "m_zombieClass") != 8) // If no tank ff or attacker is not tank
 		{
 			return Plugin_Handled;
 		}
 	}
 	return Plugin_Continue;
+}
+
+bool:IsClientAndInGame(index)
+{
+	return (index > 0 && index <= MaxClients && IsClientInGame(index));
 }
