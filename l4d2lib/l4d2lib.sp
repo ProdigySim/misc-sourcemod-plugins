@@ -216,7 +216,7 @@ public _native_GetMapValueInt(Handle:plugin, numParams)
 	new String:key[len+1];
 	GetNativeString(1, key, len+1);
 	
-	defval = GetNativeCellRef(2);
+	defval = GetNativeCell(2);
 	
 	return GetMapValueInt(key, defval);
 }
@@ -228,7 +228,7 @@ public _native_GetMapValueFloat(Handle:plugin, numParams)
 	new String:key[len+1];
 	GetNativeString(1, key, len+1);
 	
-	defval = GetNativeCellRef(2);
+	defval = GetNativeCell(2);
 	
 	return _:GetMapValueFloat(key, defval);
 }

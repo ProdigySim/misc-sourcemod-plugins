@@ -27,7 +27,7 @@ Survivors_RebuildArray()
 	
 	for (new i = 0; i < MAXPLAYERS; i++) iSurvivorIndex[i] = 0;
 
-	for (new i = 1; i <= MAXPLAYERS; i++)
+	for (new i = 1; i <= MaxClients; i++)
 	{
 		if (IsClientInGame(i) && GetClientTeam(i) == 2 && IsPlayerAlive(i))
 		{
