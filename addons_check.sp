@@ -91,6 +91,7 @@ EndAddonsCheck()
 
 public QueryCb(QueryCookie:cookie, client, ConVarQueryResult:result, const String:cvarName[], const String:cvarValue[])
 {
+	if(!g_bCheckInProgress) return;
 	if(result != ConVarQuery_Okay)
 	{
 		g_iClientAddons[client] = AR_Error;
