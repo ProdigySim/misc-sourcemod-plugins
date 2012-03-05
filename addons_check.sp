@@ -65,23 +65,23 @@ EndAddonsCheck()
 			{
 				case AR_NoResult:
 				{
-					PrintToConsole(replyClient, "%L : No Reply!");
+					PrintToConsole(replyClient, "%L : No Reply!", i);
 				}
 				case AR_Disabled:
 				{
-					PrintToConsole(replyClient, "%L : Disabled");
+					PrintToConsole(replyClient, "%L : Disabled", i);
 				}
 				case AR_Enabled:
 				{
-					PrintToConsole(replyClient, "%L : Enabled");
+					PrintToConsole(replyClient, "%L : Enabled", i);
 				}
 				case AR_Error:
 				{
-					PrintToConsole(replyClient, "%L : ERROR!");
+					PrintToConsole(replyClient, "%L : ERROR!", i);
 				}
 				default:
 				{
-					PrintToConsole(replyClient, "%L : Plugin failure :V");
+					PrintToConsole(replyClient, "%L : Plugin failure :V", i);
 				}
 			}
 		}
