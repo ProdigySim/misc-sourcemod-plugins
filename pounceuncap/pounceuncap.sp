@@ -29,8 +29,8 @@ public OnPluginStart()
 	Initialize_Scales();
 	
 	//Create convar to set
-	hPounceDmg = CreateConVar("pounceuncap_maxdamage","25","Sets the new maximum hunter pounce damage.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_NOTIFY,true,2.0);
-	CreateConVar("pounceuncap_version",PLUGIN_VERSION,"Current version of the plugin",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_NOTIFY);
+	hPounceDmg = CreateConVar("pounceuncap_maxdamage","25","Sets the new maximum hunter pounce damage.",FCVAR_PLUGIN,true,1.0);
+	CreateConVar("pounceuncap_version",PLUGIN_VERSION,"Current version of the plugin",FCVAR_PLUGIN|FCVAR_NOTIFY|FCVAR_DONTRECORD);
 	
 	//Hook changes to the convar
 	if(hPounceDmg != INVALID_HANDLE)
@@ -39,6 +39,11 @@ public OnPluginStart()
 	//Save to config
 	AutoExecConfig(true,"pounceuncap");
 	
+	ChangeDamage(GetConVarInt(hPounceDmg));
+}
+
+public OnConfigsExecuted()
+{
 	ChangeDamage(GetConVarInt(hPounceDmg));
 }
 
