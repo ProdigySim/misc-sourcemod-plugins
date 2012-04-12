@@ -65,11 +65,11 @@ Initialize_Scales()
 
 ChangeDamage(max_dmg) 
 {
-	new Float:dmg = max_dmg - 1.0;
+	--max_dmg;
 	
-	new Float:dist = flUnitsPerDmg * dmg + GetConVarFloat(hMinPounceDist);
+	new Float:dist = (flUnitsPerDmg * max_dmg) + GetConVarFloat(hMinPounceDist);
 	
 	SetConVarFloat(hMaxPounceDist,dist);
 	
-	SetConVarFloat(hMaxPounceDmg,dmg);
+	SetConVarInt(hMaxPounceDmg,max_dmg);
 }
