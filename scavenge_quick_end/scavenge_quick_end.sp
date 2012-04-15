@@ -46,13 +46,13 @@ public Action:TimeCmd(client,args)
 		new lastRoundMinutes;
 		GetRoundTime(lastRoundMinutes,lastRoundTime,3);
 		
-		PrintToChat(client, "Last Round: %d:%02.02f", lastRoundMinutes, lastRoundTime);
+		PrintToChat(client, "Last Round: %d:%05.2f", lastRoundMinutes, lastRoundTime);
 	}
 	
 	new Float:thisRoundTime;
 	new thisRoundMinutes;
 	GetRoundTime(thisRoundMinutes,thisRoundTime,2);
-	PrintToChat(client, "This Round: %d:%02.02f", thisRoundMinutes, thisRoundTime);
+	PrintToChat(client, "This Round: %d:%05.2f", thisRoundMinutes, thisRoundTime);
 	
 	return Plugin_Handled;
 }
@@ -115,7 +115,7 @@ PrintRoundEndTimeData()
 	new thisRoundMinutes = RoundToFloor(thisRoundTime)/60;
 	thisRoundTime -= 60*thisRoundMinutes;
 	
-	PrintToChatAll("First team got %d in %d:%02.02f. Current elapsed time: %d:%02.02f", 
+	PrintToChatAll("First team got %d in %d:%05.2f. Current elapsed time: %d:%05.2f", 
 		GameRules_GetScavengeTeamScore(3),
 		lastRoundMinutes,
 		lastRoundTime,
