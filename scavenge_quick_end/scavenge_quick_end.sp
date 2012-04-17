@@ -23,7 +23,7 @@ public Plugin:myinfo =
 	name = "Scavenge Quick End",
 	author = "ProdigySim",
 	description = "Checks various tiebreaker win conditions mid-round and ends the round as necessary.",
-	version = "1.0",
+	version = "1.1",
 	url = "http://bitbucket.org/ProdigySim/misc-sourcemod-plugins/"
 }
 
