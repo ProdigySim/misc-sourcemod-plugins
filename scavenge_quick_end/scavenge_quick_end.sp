@@ -125,20 +125,14 @@ PrintRoundEndTimeData()
 
 EndRoundEarlyOnTime()
 {
-	SlayTeam(2); // ServerCommand "end_scenario" would also work I think, but might cause some extra delay.
+	new oldFlags = GetCommandFlags("scenario_end");
+	// FCVAR_LAUNCHER is actually FCVAR_DEVONLY`
+	SetCommandFlags("scenario_end", oldFlags & ~(FCVAR_CHEAT|FCVAR_LAUNCHER));
+	ServerCommand("scenario_end");
+	ServerExecute();
+	SetCommandFlags("scenario_end", oldFlags);
 	PrintToChatAll("Round Ended Early: Win condition decided on time.");
 	PrintRoundEndTimeData();
-}
-
-stock SlayTeam(team)
-{
-	for (new client = 1; client <= MaxClients; client++)
-	{
-		if (IsClientInGame(client) && GetClientTeam(client) == team)
-		{
-			ForcePlayerSuicide(client);
-		}
-	}
 }
 
 stock Float:GameRules_GetRoundDuration(team)
