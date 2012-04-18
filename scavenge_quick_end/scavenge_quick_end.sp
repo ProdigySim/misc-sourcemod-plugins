@@ -12,9 +12,7 @@ new bool:g_bInScavengeRound;
 new bool:g_bInSecondHalf;
 
 // GetRoundTime(&minutes, &seconds, team)
-#define GetRoundTime(%0,%1,%2) %1 = GameRules_GetRoundDuration(%2);\
-	%0 = RoundToFloor(%1)/60;\
-	%1 -= 60 * %0
+#define GetRoundTime(%0,%1,%2) %1 = GameRules_GetRoundDuration(%2);	%0 = RoundToFloor(%1)/60; %1 -= 60 * %0
 
 #define boolalpha(%0) (%0 ? "true" : "false")
 
@@ -23,7 +21,7 @@ public Plugin:myinfo =
 	name = "Scavenge Quick End",
 	author = "ProdigySim",
 	description = "Checks various tiebreaker win conditions mid-round and ends the round as necessary.",
-	version = "1.1",
+	version = "1.2",
 	url = "http://bitbucket.org/ProdigySim/misc-sourcemod-plugins/"
 }
 
@@ -46,13 +44,13 @@ public Action:TimeCmd(client,args)
 		new lastRoundMinutes;
 		GetRoundTime(lastRoundMinutes,lastRoundTime,3);
 		
-		PrintToChat(client, "Last Round: %d:%05.2f", lastRoundMinutes, lastRoundTime);
+		PrintToChat(client, "Last Round: %d in %d:%05.2f", GameRules_GetScavengeTeamScore(3), lastRoundMinutes, lastRoundTime);
 	}
 	
 	new Float:thisRoundTime;
 	new thisRoundMinutes;
 	GetRoundTime(thisRoundMinutes,thisRoundTime,2);
-	PrintToChat(client, "This Round: %d:%05.2f", thisRoundMinutes, thisRoundTime);
+	PrintToChat(client, "This Round: %d in %d:%05.2f", GameRules_GetScavengeTeamScore(2), thisRoundMinutes, thisRoundTime);
 	
 	return Plugin_Handled;
 }
@@ -68,6 +66,8 @@ public OnGameFrame()
 
 public RoundEnd()
 {
+	if(g_bInScavengeRound) PrintRoundEndTimeData(g_bInSecondHalf);
+	
 	g_flDefaultLossTime=0.0;	
 	g_bInScavengeRound=false;
 	g_bInSecondHalf=false;
@@ -105,22 +105,18 @@ public OnCanPoured()
 	}
 }
 
-PrintRoundEndTimeData()
+PrintRoundEndTimeData(bool:secondHalf)
 {
-	new Float:lastRoundTime = GameRules_GetRoundDuration(3);
-	new lastRoundMinutes = RoundToFloor(lastRoundTime)/60;
-	lastRoundTime -= 60*lastRoundMinutes;
-	
-	new Float:thisRoundTime = GameRules_GetRoundDuration(2);
-	new thisRoundMinutes = RoundToFloor(thisRoundTime)/60;
-	thisRoundTime -= 60*thisRoundMinutes;
-	
-	PrintToChatAll("First team got %d in %d:%05.2f. Current elapsed time: %d:%05.2f", 
-		GameRules_GetScavengeTeamScore(3),
-		lastRoundMinutes,
-		lastRoundTime,
-		thisRoundMinutes,
-		thisRoundTime);
+	decl Float:time;
+	decl minutes;
+	if(secondHalf)
+	{
+		GetRoundTime(minutes,time,3);
+		PrintToChatAll("Last Round: %d in %d:%05.2f", GameRules_GetScavengeTeamScore(3), minutes, time);
+	}
+
+	GetRoundTime(minutes,time,2);
+	PrintToChatAll("This Round: %d in %d:%05.2f.", GameRules_GetScavengeTeamScore(2), minutes, time);
 }
 
 EndRoundEarlyOnTime()
@@ -132,7 +128,6 @@ EndRoundEarlyOnTime()
 	ServerExecute();
 	SetCommandFlags("scenario_end", oldFlags);
 	PrintToChatAll("Round Ended Early: Win condition decided on time.");
-	PrintRoundEndTimeData();
 }
 
 stock Float:GameRules_GetRoundDuration(team)
@@ -170,10 +165,10 @@ stock L4D2_TeamNumberToTeamIndex(team)
 
 	// Tooth table:
 	// Team | Flipped | Correct index
-	// 2       0         0
-	// 2       1         1
-	// 3       0         1
-	// 3       1         0
+	// 2	   0		 0
+	// 2	   1		 1
+	// 3	   0		 1
+	// 3	   1		 0
 	// index = (team & 1) ^ flipped
 	// index = team-2 XOR flipped, or team%2 XOR flipped, or this...	
 	new bool:flipped = bool:GameRules_GetProp("m_bAreTeamsFlipped", 1);
