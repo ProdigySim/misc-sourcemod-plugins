@@ -11,6 +11,11 @@
 #define TANK_INTEAM_DAMAGE      250.0
 #define ZC_JOCKEY               5
 
+enum TankOrSIWeapon
+{
+    TANKWEAPON,
+    SIWEAPON
+}
 
 new Handle: hPluginEnabled;
 new bool: bPluginEnabled;
@@ -21,6 +26,7 @@ new Float: fTankPunchDamage;
 
 new Float: fPlayerPreviousHit[MAXPLAYERS + 1][MAXPLAYERS + 1];  // when was the previous attack from the client (EngineTime)
 
+new Handle: hInflictorTrie = INVALID_HANDLE; // Names to look up
 
 /*
     -----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -94,6 +100,7 @@ public OnPluginStart()
     
     // hooks
     HookEvent("round_start", RoundStart_Event, EventHookMode_PostNoCopy);
+    hInflictorTrie = BuildInflictorTrie();
 }
 
 
@@ -160,22 +167,14 @@ public Action:OnTakeDamage(victim, &attacker, &inflictor, &Float:damage, &damage
     else { return Plugin_Continue; }
     
     // only check tank punch/rock and SI claws (also rules out anything but infected-to-survivor damage)
-    new bool: bTankHit;
-    if (        strcmp(classname, "weapon_tank_claw", false)    == 0    ||
-                strcmp(classname, "tank_rock", false)           == 0
-        )
-        { bTankHit = true; }
-    else if (
-                strcmp(classname, "weapon_boomer_claw", false)  != 0    &&
-                strcmp(classname, "weapon_charger_claw", false) != 0    &&
-                strcmp(classname, "weapon_hunter_claw", false)  != 0    &&
-                strcmp(classname, "weapon_jockey_claw", false)  != 0    &&
-                strcmp(classname, "weapon_smoker_claw", false)  != 0    &&
-                strcmp(classname, "weapon_spitter_claw", false) != 0
-        )
-        { return Plugin_Continue; }
-
+    new TankOrSIWeapon:inflictorID;
+    if(!GetTrieValue(hInflictorTrie, classname, inflictorID))
+    {
+        return Plugin_Continue;
+    }
     
+    new bool: bTankHit = (inflictorID == TANKWEAPON);
+        
     // now we know that damage is done by infected, on a jockeyed survivor, by a potentially problematic inflictor
     // fix both (a) doubling of damage, and (b) tank damage
 
@@ -233,4 +232,18 @@ setCleanSlate()
             fPlayerPreviousHit[i][j] = 0.0;
         }
     }
+}
+
+Handle:BuildInflictorTrie()
+{
+    new Handle:trie = CreateTrie();
+    SetTrieValue(trie, "weapon_tank_claw", TANKWEAPON);
+    SetTrieValue(trie, "tank_rock", TANKWEAPON);
+    SetTrieValue(trie, "weapon_boomer_claw", SIWEAPON);
+    SetTrieValue(trie, "weapon_charger_claw", SIWEAPON);
+    SetTrieValue(trie, "weapon_hunter_claw", SIWEAPON);
+    SetTrieValue(trie, "weapon_jockey_claw", SIWEAPON);
+    SetTrieValue(trie, "weapon_smoker_claw", SIWEAPON);
+    SetTrieValue(trie, "weapon_spitter_claw", SIWEAPON);
+    return trie;    
 }
