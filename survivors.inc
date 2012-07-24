@@ -21,7 +21,6 @@ enum SurvivorCharacter {
 // Names of the survivors
 // TODO: languages?
 new const String:SurvivorNames[SurvivorCharacter][] = {
-	"Unknown",
 	"Coach",
 	"Nick",
 	"Rochelle",
