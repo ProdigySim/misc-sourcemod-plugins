@@ -6,8 +6,8 @@
 public Plugin:myinfo =
 {
 	name = "Sourcemod Hooker Plugin",
-	author = "Lindsey Lohan",
-	description = " Brothel ",
+	author = "ProdigySim",
+	description = " Hook game events and echo them to chat ",
 	version = PLUGIN_VERSION,
 	url = "http://prodigysim.com/l4d2/plugins/"
 };
