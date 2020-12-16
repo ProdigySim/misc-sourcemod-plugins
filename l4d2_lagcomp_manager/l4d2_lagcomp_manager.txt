@@ -1,0 +1,32 @@
+"Games"
+{
+	"left4dead2"
+	{
+    "Addresses"
+    {
+      "lagcompensation"
+      {
+        "linux"
+        {
+          "signature" "lagcompensation"
+        }
+        "read" "0"
+      }
+    }
+		"Signatures"
+		{
+			"CLagCompensationManager_AddAdditionaEntity"
+			{
+				"linux"		"@_ZN23CLagCompensationManager19AddAdditionalEntityEP11CBaseEntity"
+			}
+			"CLagCompensationManager_RemoveAdditionaEntity"
+			{
+				"linux"		"@_ZN23CLagCompensationManager22RemoveAdditionalEntityEP11CBaseEntity"
+			}
+      "lagcompensation"
+      {
+        "linux"   "@lagcompensation"
+      }
+		}
+	}
+}
